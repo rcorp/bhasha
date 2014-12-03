@@ -1,0 +1,11 @@
+{
+  "name": "dynamicCryptography",
+  "description": "creating our own cryptography and network security for saving files and data using hash function",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Ramanan Corporation",
+    "email": "contactus@rcorp.co.in",
+    "url": "www.rcorp.co.in"
+  }
+}
