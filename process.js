@@ -27,23 +27,20 @@ console.log('Adverbs: ' + adverbString.match(wordPatt).length)
 // }
 module.exports = {
 	hash: function(options, inputString, dataArray) {
-		if(options.cryptotype == '' || options.cryptotype == null || !options.cryptotype) {
-			shasum = crypto.createHash('sha1');	
+		if (options.cryptotype == '' || options.cryptotype == null || !options.cryptotype) {
+			shasum = crypto.createHash('sha1');
 		} else {
 			shasum = crypto.createHash(options.cryptotype);
 		}
 
-		// console.log(inputString)
-		for(var i=0; i<=dataArray.length;dataArray++) {
+		for (var i = 0; i <= dataArray.length; dataArray++) {
 			if (dataArray[i] == inputString) {
-				console.log('here1')
 				exists = 1;
 			} else {
-				console.log('here0')
 				exists = 0;
 			}
 		}
-		if(exists == 1) {
+		if (exists == 1) {
 			sha = shasum.digest('hex');
 		} else if (exists == 0) {
 			shasum.update(Math.random().toString(), 'utf8')
@@ -59,6 +56,8 @@ module.exports = {
 			var nounIndex = Math.floor(dec / adjectiveString.match(wordPatt).length);
 			var adjectiveIndex = Math.floor(dec % adjectiveString.match(wordPatt).length);
 
+			return (adjectiveString.match(wordPatt)[adjectiveIndex], nounString.match(wordPatt)[nounIndex])
+			return (adjectiveIndex, nounIndex);
 			console.log(adjectiveString.match(wordPatt)[adjectiveIndex], nounString.match(wordPatt)[nounIndex])
 			console.log(adjectiveIndex, nounIndex);
 
@@ -77,6 +76,8 @@ module.exports = {
 			var nounIndex = Math.floor(residue / adjectiveString.match(wordPatt).length);
 			var adjectiveIndex = Math.floor(residue % adjectiveString.match(wordPatt).length);
 
+			return (adjectiveString.match(wordPatt)[adjectiveIndex], nounString.match(wordPatt)[nounIndex], verbString.match(wordPatt)[verbIndex], adverbString.match(wordPatt)[adverbIndex]);
+			return (adjectiveIndex, nounIndex, verbIndex, adverbIndex);
 			console.log(adjectiveString.match(wordPatt)[adjectiveIndex], nounString.match(wordPatt)[nounIndex], verbString.match(wordPatt)[verbIndex], adverbString.match(wordPatt)[adverbIndex])
 			console.log(adjectiveIndex, nounIndex, verbIndex, adverbIndex);
 
@@ -95,8 +96,10 @@ module.exports = {
 			var nounIndex = Math.floor(residue / adjectiveString.match(wordPatt).length);
 			var adjectiveIndex = Math.floor(residue % adjectiveString.match(wordPatt).length);
 
-			console.log(adjectiveString.match(wordPatt)[adjectiveIndex], nounString.match(wordPatt)[nounIndex], verbString.match(wordPatt)[verbIndex], adverbString.match(wordPatt)[adverbIndex])
-			console.log(adjectiveIndex, nounIndex, verbIndex, adverbIndex);		
+			return (adjectiveString.match(wordPatt)[adjectiveIndex], nounString.match(wordPatt)[nounIndex], verbString.match(wordPatt)[verbIndex], adverbString.match(wordPatt)[adverbIndex]);
+			return (adjectiveIndex, nounIndex, verbIndex, adverbIndex);
+			console.log(adjectiveString.match(wordPatt)[adjectiveIndex], nounString.match(wordPatt)[nounIndex], verbString.match(wordPatt)[verbIndex], adverbString.match(wordPatt)[adverbIndex]);
+			console.log(adjectiveIndex, nounIndex, verbIndex, adverbIndex);
 		}
 	}
 }
