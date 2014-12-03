@@ -1,0 +1,273 @@
+Node.js
+From Wikipedia, the free encyclopedia
+
+This article may require copy editing for grammar, style, cohesion, tone, or spelling. You can assist by editing it. (June 2014)
+node.js
+Node.js logo.svg
+Original author(s)	Ryan Dahl
+Developer(s)	Node.js Developers, Joyent, Github Contributors
+Initial release	May 27, 2009[1]
+Stable release	0.10.29 / June 16, 2014[2]
+Preview release	0.11.13 / May 1, 2014[2]
+Development status	Active
+Written in	C, C++, JavaScript
+Operating system	Mac OS X, Linux, Solaris, FreeBSD, OpenBSD, Windows (older versions require Cygwin), webOS
+Type	Event-driven networking
+License	MIT
+Website	nodejs.org
+Node.js is a runtime environment and a library for running applications written in JavaScript outside the browser (for example, on the server). All of the popular server operating systems are supported, including Windows and Linux.[3]
+
+Node.js applications are designed to maximize throughput and efficiency, using non-blocking I/O and asynchronous events. Node.js applications run single-threaded, although Node.js uses multiple threads for file and network events. Node.js is commonly used for real time applications due to its asynchronous nature, allowing applications to display information faster for users without the need for refreshing.
+
+Node.js is a runtime environment combined with libraries for common web application requirements. Internally, it uses the Google V8 JavaScript engine to execute code, and a large percentage of the basic modules are written in JavaScript. Node.js contains a built-in asynchronous I/O library for file, socket and HTTP communication. The HTTP and socket support allows Node.js to act as a web server without additional web server software such as Apache.
+
+Contents
+1 History
+2 Design
+3 Architecture
+4 Uses
+5 Development
+6 Tools and IDEs
+7 Advantages and drawbacks
+8 See also
+9 References
+10 Further reading
+11 External links
+History[edit]
+
+
+Ryan Dahl, creator of Node.js
+Node.js was created by Ryan Dahl starting in 2009. Its development and maintenance is sponsored by Joyent.[4] Dahl was inspired to create Node.js after seeing a file upload progress bar on Flickr. The browser did not know how much of the file had been uploaded and had to query the web server. Dahl wanted an easier way.[5] Ruby's Mongrel web server was another source of inspiration for Dahl.[6]
+
+Node.js is influenced by other models, such as the Ruby Event Machine and Python's Twisted model. Node.js builds on this further by providing the event loop as a language instead of a library. Unlike the traditional models, which use blocking calls, Node.js does not have event-loop calls. Instead, Node.js enters the loop after executing the script, based on how JavaScript works.[citation needed]
+
+Originally Dahl had several failed projects in C, Lua, and Haskell, but when Google's V8 engine was released, Dahl began to examine JavaScript.[7]
+
+Even though his original idea was non-blocking, he "backed out of that (a bit) in the module system and a few other areas", as it made loading external libraries troublesome.[8]
+
+Node.js was first published by Dahl in 2009 and could only run on Linux. It reached international attention after Dahl presented at the inaugural JSConf EU.[9][10]
+
+npm, a package manager for Node.js libraries, was introduced in 2011.
+
+In June 2011, Microsoft partnered with Joyent to help create a native Windows version of Node.js.[11] The first Node.js build to support Windows was released in July.
+
+On January 30, 2012 Dahl stepped aside, promoting coworker and npm creator Isaac Schlueter to the gatekeeper position.[12]
+
+On January 15, 2014 Schlueter announced he was making npm his main focus and Timothy J Fontaine would be Node.js' new project lead.[13] The next day, January 16, 2014, Timothy J Fontaine made a followup post outlining the road ahead where he mentioned bug fixing, performance tuning, staying up to date with the V8 engine and tooling as priorities.[14]
+
+Design[edit]
+Ryan Dahl, the creator of Node.js, originally had the goal of creating web sites with push capabilities such as those seen in Gmail. After trying solutions in several other programming languages he chose JavaScript because of the lack of an existing I/O API. This allowed him to define a convention of non-blocking, event-driven I/O.[15]
+
+The goal of Node.js is to offer an easy and safe way to build high performance and scalable network applications in JavaScript. Node.js is part of the Server Side JavaScript environment and extends the JavaScript API to offer server side features. The Node.js API can be extended using the CommonJS module system. Node.js is able to do this by handling many client connections at the same time.
+
+Node.js registers itself with the operating system, so that it is notified when a connection is made. When a connection is made, the operating system will issue a callback. Within the Node.js runtime, each connection is a small heap allocation. Traditionally, relatively heavyweight OS processes or threads handled each connection. Node.js, however, uses an event loop, instead of processes or threads, to scale to millions of connections happening at the same time.[16] In contrast to other event-driven servers, Node.js' event loop does not need to be called explicitly. Instead callbacks are defined, and the server automatically enters the event loop at the end of the callback definition. Node.js exits the event loop when there are no further callbacks to be performed.
+
+Node.js can be compiled locally or downloaded as a pre-compiled binary. Applications are executed from the command line with the command: "node <application name>.js"
+
+Similar environments available for other programming languages include Tornado and Twisted for Python; Perl Object Environment for Perl; libevent for C; Vert.x for Java, JavaScript, Groovy, Python and Ruby; Akka for Java and Scala; EventMachine for Ruby and vibe.d for D. Unlike most JavaScript programs, Node.js is not executed in a web browser, but instead as a server-side JavaScript application. Node.js implements some CommonJS specifications.[17] It also provides a REPL environment for interactive testing.
+
+Architecture[edit]
+Traditional web-serving techniques require each connection (request) to create a new thread, taking up system RAM and eventually maxing-out at the amount of RAM available. Node.js is different. It operates on a single-thread, using non-blocking I/O calls, allowing it to support tens of thousands of concurrent connections, without worrying about RAM limitations and the cost of context-switching between threads. The design of sharing a single-thread between all the requests means it can be used to build highly concurrent applications. The design goal of a Node.js application is that any function performing an I/O must use a callback. Node.js brings a new element to the mix in the form of an event-driven focus on the server-side. Client-side operational methods simply aren't efficient enough for the current and forthcoming generations of web systems. Node.js pushes data to clients if and only when appropriate.
+
+V8 is an opensource project by Google and it is in the very core of the Google Chrome browser. Its first public release was on September 2, 2008, the same date Chrome's first release was announced. Written in C++, V8 pushed the boundaries of browser technology. It precompiled the JavaScript source code to machine code instead of just interpreting it.
+
+V8 is one of the building blocks that forms Node.js. Node.js contains libuv to handle asynchronous events. Google's V8 provides the run-time for JavaScript. Libuv is what abstracts away all of the underlying network and file system functionality on both Windows and POSIX-based systems like Linux, Mac OS X and Unix. The core functionality of Node.js resides in a core library written in JavaScript. The Node.js bindings, written in C++, provide the glue connecting these technologies to each other and to the operating system.
+
+Npm is the package manager that comes preinstalled with the Node.js server platform. It is used to install Node.js programs from the npm registry. By organizing the installation and management of third-party Node.js programs, it helps developers build faster. npm is not to be confused with the commonJS require() statement. It is not used to load code: instead, it manages to install code and manage code dependencies from the command line. The packages found in the npm registry can range from simple helper libraries like underscore.js to task runners like grunt.js that are not intended for use on one single application.
+
+Uses[edit]
+Some of the real time applications of Node.js are:
+
+It can be used as a Web socket server: A typical example of this is a chat server.
+Fast file upload client: when there is a big file to be uploaded, to make sure that they don't block so that you can upload more than one file at a time.
+Development[edit]
+Node.js has a developer community primarily centered on two mailing lists and the IRC channel #node.js on freenode. The community gathers at NodeConf, an annual developer conference focused on Node.js.[18]
+
+Node.js is currently used by a number of large companies including Groupon,[19] SAP,[20]LinkedIn,[21][22] Microsoft,[23][24] Yahoo!,[25] Walmart[26] and PayPal.[27][28]
+
+Tools and IDEs[edit]
+Desktop IDEs
+Atom (free open-source)
+Nodeclipse Enide Studio (free open-source, Eclipse-based)
+JetBrains WebStorm (commercial)
+JetBrains IntelliJ IDEA (commercial)
+Microsoft Visual Studio with Node.js Tools for Visual Studio[29]
+Microsoft Visual Studio with TypeScript
+NoFlo – flow-based programming environment integrated with GNOME APIs[30]
+Online code editors
+Codenvy IDE (cloud service)
+Cloud9 IDE (cloud service)
+Runtimes and debuggers
+Microsoft WebMatrix (free) or Visual Studio (commercial product) with Node.js Tools for Visual Studio (free)
+Advantages and drawbacks[edit]
+
+This article contains a pro and con list, which is sometimes inappropriate. Please help improve it by integrating both sides into a more neutral presentation, or remove this template if you feel that such a list is appropriate for this article. (June 2014)
+Node.js combined with a browser, a document DB (such as MongoDB or CouchDB) and JSON offers a unified JavaScript development stack. With the increased attention to client-side frameworks and the adaptation of what were essentially server-side development patterns like MVC, MVP, MVVM, etc., Node.js allows the reuse of the same model and service interface between client-side and server-side.
+
+The fact that JavaScript had no unified API for I/O allowed the developers of Node.js to think about the best way to implement a modern I/O interface. The radical choice to implement all I/O in an asynchronous and non-blocking way, combined with a single-threaded event-based loop, presented a novel way to implement real-time web applications. Node.js can therefore keep many connections alive transparently without having to reject new incoming connections.
+
+Node.js is a lightweight platform, a step away from the heavier frameworks and infrastructures, which might give Node.js an advantage when deployed in the cloud or other environments where scaling is achieved by creating more workers.
+
+Of course as with any relatively new technology, Node.js has some drawbacks:[citation needed]
+
+Node.js libraries are developed actively, with a high rate of change from month-to-month. This can cause version issues, instabilities and certain development issues.
+Npm shrink wrap and package.json were introduced a while back to set up standards, but the issue of standards is still a work in process and some issues still exist.
+The whole callback, event-driven, functional programming aspects of Node.js can add a learning curve burden to server-side programmers of other object-oriented languages.
+Asynchronous and event-driven code inherently adds more complexity to the code versus a synchronous code.
+As a JavaScript derivative, Node.js code is loosely-typed with object-orientation abilities. This combination can result in code that is hard to debug.
+JavaScript has more than its share of "bad parts" that might throw off engineers and newcomers.
+See also[edit]
+Portal icon	Free software portal
+MEAN
+Erlang (programming language)
+Twisted (software)
+EventMachine
+Scala (programming language)
+Dart (programming language)
+Go (programming language)
+Vert.x
+References[edit]
+^ https://github.com/joyent/node/tags?after=v0.0.4
+^ a b [1]
+^ "Download node.js". Retrieved 2014-06-20.
+^ Alex Handy (2011-06-24). "Node.js pushes JavaScript to the server-side". SDTimes. Retrieved 2011-09-04.
+^ Harris, Amber (April 1, 2012). "The Birth of Node: Where Did it Come From? Creator Ryan Dahl Shares the History". Devops Angle. Retrieved 26 October 2013.
+^ Synodinos, Dio (December 13, 2010). "Deep inside Node.js with Ryan Dahl". InfoQ. Retrieved 26 October 2013.
+^ McCarthy, Kevin (January 31, 2011). "Node.js Interview: 4 Questions with Creator Ryan Dahl". Streetwise Media. Retrieved 26 October 2013.
+^ Podsechin, Oleg (August 10, 2010). "Ryan Dahl Interview: Part 1". DailyJS. Retrieved 26 October 2013.
+^ "Ryan Dahl at JSConf EU 2009".
+^ "Ryan Dahl at JSConf EU 2009 Video".
+^ [Porting Node to Windows http://blog.nodejs.org/2011/06/23/porting-node-to-windows-with-microsoft%25e2%2580%2599s-help/], Node.js Blog
+^ Dahl, Ryan. "New gatekeeper". Retrieved 26 October 2013.
+^ Schlueter, Isaac (January 15, 2014). "The Next Phase of Node.js". Retrieved 21 January 2014.
+^ Fontaine, Timothy (January 16, 2014). "Node.js and the Road Ahead". Retrieved 21 January 2014.
+^ Hughes-Croucher, Tom; Wilson, Mike (2012). Up and Running with Node.js. Up and Running (1st ed.). Sebastopol: O'Reilly. p. vii. ISBN 978-1-4493-9858-3. "I was concerned about the ability to program advanced push features into the website like I had seen in Gmail"
+See the book's Foreword at OReilly.com
+^ [2]
+^ Implementations/node.js - CommonJS Spec Wiki
+^ NodeConf Schedule Announced, By Klint Finley, April 7, 2011, ReadWriteHack
+^ Geitgey, Adam (30 October 2013). "I-Tier: Dismantling the Monoliths". Groupon. Retrieved 30 April 2014.
+^ "SAP AppBuilder". SAP. March 10, 2014. Retrieved March 10, 2014.
+^ "You'll never believe how LinkedIn built its new iPad app". VentureBeat. May 2, 2012. Retrieved May 10, 2012.
+^ [3], LinkedIn's developer blog discusses their Node.js stack optimizations
+^ "Here's why you should be happy that Microsoft is embracing Node.js". The Guardian. November 9, 2011. Retrieved May 10, 2012.
+^ [4], WebMatrix - Front End Web Developers take note (ASP.NET, PHP, node.js and more)
+^ [5], Yahoo! Developer Network announces Cocktails project using Node.js
+^ "Why Walmart is using Node.js". VentureBeat. January 24, 2012. Retrieved May 10, 2012.
+^ "Clash of the Titans: Releasing the Kraken, NodeJS @paypal". fluentconf.com. May 28, 2013. Retrieved September 11, 2013.
+^ All such companies and their products in which Node.js is used
+^ Node.js Tools for Visual Studio, Codeplex
+^ "Bergius: Flowhub and the GNOME Developer Experience". LWN.net. 2014-05-02. Retrieved 2014-05-24.
+Further reading[edit]
+Hughes-Croucher, Tom; Wilson, Mike (April 2012), Up and Running with Node.js (First ed.), O'Reilly Media, p. 204, ISBN 978-1-4493-9858-3
+Ornbo, George (September 2012), Sams Teach Yourself Node.js in 24 Hours (First ed.), SAMS Publishing, p. 440, ISBN 978-0-672-33595-2
+Teixeira, Pedro (October 2012), Professional Node.js (First ed.), John Wiley & Sons, p. 408, ISBN 978-1-1182-2754-1
+Randal L. Schwartz and Aaron Newcomb (9 January 2013). "Episode 237: Node.js". http://twit.tv/show/floss-weekly (Podcast). TWiT.tv. Event occurs at 1:08:13. Retrieved 9 January 2013.
+Ribeiro Pereira, Caio (July 2013), Aplicações web real-time com Node.js (First ed.), Casa do Código, p. 143, ISBN 978-85-66250-14-5
+External links[edit]
+	Wikimedia Commons has media related to Node.js.
+Official website
+v t e
+JavaScript
+Code analysis	
+JSHint JSLint
+Compilers	
+CoffeeScript Google Closure Compiler Google Web Toolkit Morfik TypeScript
+Concepts	
+Ajax Client-side Dynamic HTML JavaScript library JavaScript syntax Unobtrusive JavaScript
+Debuggers	
+Firebug Microsoft Script Debugger Microsoft Script Editor Microsoft Visual Studio Opera Dragonfly Microsoft Visual Web Developer Express Venkman Web Inspector
+Doc generators	
+JSDoc
+Editors	
+Online Javascript IDE Comparison of JavaScript-based source code editors
+Engines	
+Comparison of layout engines List of ECMAScript engines List of JavaScript engines
+Frameworks	
+Comparison of JavaScript frameworks List of JavaScript libraries
+Related languages	
+ActionScript asm.js CoffeeScript Dart ECMAScript JavaScript OSA JScript TypeScript VBScript
+Related technologies	
+Cascading Style Sheets Document Object Model HTML JSON
+Resources	
+npm NuGet
+Server-side	
+Active Server Pages CommonJS JSGI Node.js Wakanda
+Unit testing	
+Jasmine JSUnit QUnit List of JavaScript unit testing frameworks
+People	
+Douglas Crockford Brendan Eich John Resig
+Categories: JavaScript librariesFree software programmed in JavaScriptFree software programmed in C++Joyent
+Navigation menu
+Create accountLog inArticleTalkReadEditView history
+
+Navigation
+Main page
+Contents
+Featured content
+Current events
+Random article
+Donate to Wikipedia
+Wikimedia Shop
+Interaction
+Help
+About Wikipedia
+Community portal
+Recent changes
+Contact page
+Tools
+What links here
+Related changes
+Upload file
+Special pages
+Permanent link
+Page information
+Wikidata item
+Cite this page
+Print/export
+Create a book
+Download as PDF
+Printable version
+Languages
+???????
+??????????
+Català
+Ceština
+Deutsch
+????????
+Español
+?????
+Français
+???
+??????
+Bahasa Indonesia
+Italiano
+?????
+Magyar
+??????
+Bahasa Melayu
+Nederlands
+???
+Polski
+Português
+???????
+Svenska
+??????????
+????
+Ti?ng Vi?t
+??
+Edit links
+This page was last modified on 17 July 2014 at 15:41.
+Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+Privacy policyAbout WikipediaDisclaimersContact WikipediaDevelopersMobile viewWikimedia Foundation Powered by MediaWikifile2.txtfunction (err,data){
+	if(err){
+		console.log(err);
+	}
+	else
+	{
+		fs.appendFile('file2.txt',function(err,data2){
+
+		})
+		console.log("Data has been successfully appended.");
+	}
+}
