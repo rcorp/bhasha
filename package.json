@@ -1,5 +1,5 @@
 {
-  "name": "dynamicCryptography",
+  "name": "bhasha",
   "description": "creating our own cryptography and network security for saving files and data using hash function",
   "version": "1.0.0",
   "license": "MIT",
@@ -7,5 +7,9 @@
     "name": "Ramanan Corporation",
     "email": "contactus@rcorp.co.in",
     "url": "www.rcorp.co.in"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rcorp/bhasha.git"
   }
 }
